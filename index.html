@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modularity, Dependency Injection, Scala, and the Cake Pattern</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="remark.js" type="text/javascript"> </script>
+    <link rel="stylesheet/less" type="text/css" href="custom.less">
+    <script src="less.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# The Case of the Summary Scores
+## .emph[A Tale of Technology Choice, Scientific Computing, and a Deadline]
+
+<BR />
+<BR />
+Nicholas McAvoy
+
+January 28, 2013
+
+---
+layout: true
+
+# Background
+
+---
+
+## .emph[Project history]
+
+Late in 2009 a Grand Opportunity (GO) Grant was awarded jointly to the Brain Behavior Laboratory (BBL) in the Neuropsychiatry Section of the University of Pennsylvania Perelman School of Medicine and Children's Hospital of Philadelphia (CHOP).
+
+- The title of the study: "Neurodevelopmental Genomics: Trajectories of Complex Phenotypes." 
+
+The goal of the project was to identify the complex causes of mental illness, particularly schizophrenia.
+
+---
+
+## .emph[Project methods]
+
+The goal was to enroll 10,000 youth ages 8-21 in the Philadelphia region and within two years obtain:
+
+- Genomic data (collected at CHOP)
+
+- Behavioral data (from a one-hour computerized neurocognitive test battery administered through the BBL's application WebCNP)
+
+- .emph[Psychiatric and Medical history (from a one-hour clinical interview called GOASSESS implemented in FileMaker Pro)]
+
+- For a subset of 1,000 subjects, fMRI brain imaging. 
+
+---
+
+## .emph[The Interview]
+
+- Contained sections to determine subject's probability of having various disorder categories, from ADD and OCD to mania and hallucinations. 
+
+- Many questions in the form of "Yes" / "No" / "I don't know" or scales from 0 to 4, 6, or 10. Others were free-form text responses.
+
+- Each category needed to be summarized on a scale from 0 (disorder not endorsed) to 4 (significant). Then, score categories were themselves aggregated into an overall measure of psychiatric risk, which fed into the analyses of the other components of the study.
+
+---
+layout: false
+
+# The Problem
+
+- The GOASSESS summary score calculations were initially done in FileMaker Pro. As the calculations and the sample size grew, they became untenable. Recalculating from start to finish took 23 hours.
+
+- Fast forward to April 2012. Data was collected for over 9,000 subjects. In two months' time the investigators would need to present the preliminary results of the study to the NIMH. Serious questions about the summary calculations existed.
+
+- It was decided we needed to reimplement the calculations from scratch to obtain manageable performance and be able to tinker with them.
+
+- Responsibility fell to me.
+
+---
+
+# The Right Tool for the Job
+
+- First question: use a statistical package or a general-purpose programming language?
+
+- If a language, which one? We discussed C (performance!), Java (precedent!), and Python (simplicity!).
+
+---
+layout: true
+
+# Why we chose Scala
+
+---
+
+## .emph[Pain]
+
+- Initially we chose Java, but the difficulty of abstracting repetitive patterns in the calculations as well as with unpredictability of types coming over the JDBC wire led to an experiment in Scala.
+
+--
+
+## .emph[Domain Modeling]
+
+- All numeric types were stored in the database as nullable Floats, while most but not all were really integers, and integers themselves stood variously for "Yes" / "No" / "Unknown" or for a range from 0 to 4, 6, or 10.
+
+- Scala made it relatively easy to parse this too generally-typed data into the specific types of our domain, making calculations clearer and revealing bugs.
+
+--
+
+## .emph[Option]
+
+- Scala's ```Option``` type provided a superior way to handle nullable data.
+
+---
+
+## .emph[Tinkerability]
+
+- The increased readability due to the above advantages, along with the possibility of developing a domain-specific language for specifying new ones down the line, lent hope that a non-expert (such as an investigator) would have an easier time making modifications.
+
+--
+
+## .emph[Compatibility]
+
+- Because Scala runs on the JVM, no additional technology was required in order to make the switch.
+
+---
+layout: false
+
+# A Hired Gun
+
+- Scala or no Scala, it was clear that I was going to need help if we were to make our deadline.
+
+- I contacted Yuvi Masory, a respected local consultant and Scala expert, about the project. Serving as the intermediary between him an my lab, I brokered an agreement for him to take on the project with me supervising.
+
+---
+layout: true
+
+# Challenges
+
+---
+
+## .emph[Completeness]
+
+How do you handle missing components of calculations? What if the answer is present but "I don't know"?
+
+--
+
+- The initial calculations were conservative and withheld a result if any component was missing. That produced an unacceptable (~35%) rate of missing the final result.
+
+--
+
+- In collaboration with the study investigators, we decided to always report a result in the case of a missing, but to develop a parallel "Taint" system so that such discrepancies could still be tracked.
+
+--
+
+- The two schemes were loosely referred to as "old semantics" and "new semantics."
+
+---
+
+## .emph[Correctness]
+
+There was no central, exhaustive, technical definition of the calculations except in the FileMaker code itself. How to determine correctness?
+
+--
+
+- Old semantics code was to duplicate the FileMaker behavior exactly, while documenting known bugs. We wrote a validation module to bring these two into alignment.
+
+--
+
+- That gave us more confidence the Scala code was free of bugs, but still unsure of whether the new semantics code was correct. For that, we decided investigators would need to do a few by hand.
+
+---
+layout: false
+
+# Results
+
+--
+
+- The calculations once implemented in Scala took less than a minute to complete.
+
+- The 
+
+---
+layout: false
+
+# Stuff I used
+
+- Presentation: [remark.js](http://gnab.github.com/remark/)
+
+- CSS: [LESS](http://lesscss.org/)
+
+- Color scheme: [Color Scheme Designer](http://colorschemedesigner.com/)
+
+---
+
+    </textarea>
+    <div id="slideshow"></div>
+  </body>
+</html>
