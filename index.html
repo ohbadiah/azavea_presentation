@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Modularity, Dependency Injection, Scala, and the Cake Pattern</title>
+    <title>The Case of the Summary Scores</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="remark.js" type="text/javascript"> </script>
     <link rel="stylesheet/less" type="text/css" href="custom.less">
@@ -30,7 +30,7 @@ layout: true
 
 ## .emph[Project history]
 
-Late in 2009 a Grand Opportunity (GO) Grant was awarded jointly to the Brain Behavior Laboratory (BBL) in the Neuropsychiatry Section of the University of Pennsylvania Perelman School of Medicine and Children's Hospital of Philadelphia (CHOP).
+Late in 2009 a Grand Opportunity Grant from the Obama stimulus was awarded jointly to the Brain Behavior Laboratory  in the Neuropsychiatry Section of the University of Pennsylvania Perelman School of Medicine and Children's Hospital of Philadelphia.
 
 - The title of the study: "Neurodevelopmental Genomics: Trajectories of Complex Phenotypes." 
 
@@ -46,7 +46,7 @@ The goal was to enroll 10,000 youth ages 8-21 in the Philadelphia region and wit
 
 - Behavioral data (from a one-hour computerized neurocognitive test battery administered through the BBL's application WebCNP)
 
-- .emph[Psychiatric and Medical history (from a one-hour clinical interview called GOASSESS implemented in FileMaker Pro)]
+- .emph[Psychiatric and medical history (from a one-hour clinical interview called GOASSESS implemented in FileMaker Pro)]
 
 - For a subset of 1,000 subjects, fMRI brain imaging. 
 
@@ -58,7 +58,7 @@ The goal was to enroll 10,000 youth ages 8-21 in the Philadelphia region and wit
 
 - Many questions in the form of "Yes" / "No" / "I don't know" or scales from 0 to 4, 6, or 10. Others were free-form text responses.
 
-- Each category needed to be summarized on a scale from 0 (disorder not endorsed) to 4 (significant). Then, score categories were themselves aggregated into an overall measure of psychiatric risk, which fed into the analyses of the other components of the study.
+- After the interview, each category needed to be summarized on a scale from 0 (disorder not endorsed) to 4 (significant). Then, score categories were themselves aggregated into an overall measure of psychiatric risk, which fed into the analyses of the other components of the study.
 
 ---
 layout: false
@@ -80,6 +80,8 @@ layout: false
 - First question: use a statistical package or a general-purpose programming language?
 
 - If a language, which one? We discussed C (performance!), Java (precedent!), and Python (simplicity!).
+
+- We ended up using Scala.
 
 ---
 layout: true
@@ -125,7 +127,9 @@ layout: false
 
 - Scala or no Scala, it was clear that I was going to need help if we were to make our deadline.
 
-- I contacted Yuvi Masory, a respected local consultant and Scala expert, about the project. Serving as the intermediary between him an my lab, I brokered an agreement for him to take on the project with me supervising.
+- I contacted Yuvi Masory, a respected local consultant and Scala expert, about the project. Serving as the intermediary between him an my lab, I brokered an agreement for him to take on the project.
+
+- My role became one of supervisor, collaborator, and liaison.
 
 ---
 layout: true
@@ -173,7 +177,17 @@ layout: false
 
 - The calculations once implemented in Scala took less than a minute to complete.
 
-- The 
+--
+
+- The new semantics gave a complete dataset we had more confidence in.
+
+--
+
+- Unfortunately, the first usable data was about a week too late for the big presentation.
+
+--
+
+- The calculations continue to exist and be developed in the ongoing research of the lab.
 
 ---
 layout: false
@@ -187,6 +201,8 @@ layout: false
 - Color scheme: [Color Scheme Designer](http://colorschemedesigner.com/)
 
 ---
+
+# Thank you.
 
     </textarea>
     <div id="slideshow"></div>
